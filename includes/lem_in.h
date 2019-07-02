@@ -24,12 +24,18 @@
 
 int					room_nb;
 
-typedef struct		s_room
+typedef struct		s_room //ячейка массива структур комнат
 {
 	char			*name;
 	struct s_room	*neigb;
 	int				status;
 }					t_room;
+
+typedef struct		s_list // ячейка списка соседей
+{
+	t_room			*room;
+	struct s_list	*next;		
+}					t_list;
 
 typedef struct	s_reading_data
 {
@@ -38,24 +44,6 @@ typedef struct	s_reading_data
     t_room			*end_room;
 }					t_data;
 
-/*структура для создания списка путей*/
-typedef struct 
-{
-	char *y; /* элемент  */
-	struct path *next; /* следующий элемент в списке */
-} path;
-
-/* структура для графа*/
-typedef struct 
-{
-	path *ways[MAXV + 1]; /* информация о смежности ????? */
-	int nvertices;  /* количество вершин в графе */
-	int nedges; /* количество ребер в графе */
-}   graph;
-
-void	reading_data(t_data *str, char *line);
-t_room	*make_struct_arr();
-int		checking_dash(char *line);
-void	checking_data(t_data *str)
+void			make_neigb_list(t_room *room, t_room *rooms, char *line);
 
 #endif

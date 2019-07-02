@@ -8,9 +8,8 @@ int	main(int argc, char **argv)
 	line = NULL;
 	room_nb = 0;
 	void reading_data(&str, line);
-	if (check())
+	if (checking_data())
 	{
-		void filling_data();
 		algorithm();
 	}
 	void free_data();

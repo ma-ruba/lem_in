@@ -34,7 +34,20 @@ void 	reading_data(t_data *str, char *line)
 
 void	room_connections(t_room *room, char *line)
 {
-	
+	int		i;
+	t_room	*r;
+
+	i = 0;
+	while (line[i] != ' ')
+		i++;
+	line[i] = '\0';
+	r = find_room(ft_strdup(line), room);
+	r.neigb = make_neighb_list(room, line);
+}
+
+t_room	*find_room(char *buff, t_room *room)
+{
+
 }
 
 void	make_start(t_data *str, t_room *room, char *line)
@@ -76,6 +89,12 @@ int		checking_dash(char *line)
 
 void	other_rooms(char *line, t_room *room)
 {
+	int	i;
+
+	i = 0;
+	while (line[i] != ' ')
+		i++;
+	line[i] = '\0';
 	room[room_nb].name = ft_strdup(line);
 	room_nb++;
 }
