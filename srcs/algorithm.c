@@ -1,35 +1,57 @@
-int algorithm()
-{
-    int i;
+#include "lem_in.h"
 
-    i = 0;
-    while (/*the number of connections between start room and others */ < i)
-    {
-        looking_for_the_shortest_path();
-        i++;
-    }
-    moving_ants();
+void    	algorithm(t_room *start)
+{
+	while ()
+	{
+
+	}
 }
 
-// struct for variants (including path (which ant is moving and what room it
-//                      choose) and the number of lines)
-
-// struct for shortests ways
-
-
-
-void looking_for_the_shortest_path()
+void    	deapth_search(t_room *start, t_room *finish)
 {
-    //this function is going through our pathes (lists that are made of connections
-            // between rooms that we readed) and compare their to find the
-            // shortest way. then it put the result in a stucture, special made
-            // for the results. So then when we call to this function next time
-            // we will avoid the results that are in our structure
+	int		path_len;
 
+	path_len = finish->value;
+	start->value = 0;
+	give_values(start, finish, 1);
 }
 
-void moving_ants()
+int			check_finish(t_room *finish, t_room *current)
 {
-    // this functions is counting how much lines appeares if we are going
-        //through out structure sertain way 
+	if (ft_strequ(finish->name, current->name))
+		return (1);
+	return (0);
+}
+
+void		give_values(t_room *start, t_room *finish, int cur_val)
+{
+	t_room		*queue[MAXV];
+	int			i;
+	int			j;
+	int			block;
+	t_list		*tmp;
+
+	i = 0;
+	j = 0;
+	block = 1;
+	tmp = start->neigb;
+	queue[i++] = start;
+	while (!check_finish(finish, queue[i - 1]))
+	{
+		queue[j++] = NULL;
+		while (tmp)
+		{
+			queue[i] = tmp->room;
+			if (queue[i]->value == NOT_GIVEN)
+				queue[i]->value = cur_val;
+			i++;
+			tmp = tmp->next;
+		}
+		if (j == block || block == 1)
+			cur_val++;
+		if (j == block)
+			block = i;
+		tmp = queue[j]->neigb;
+	}
 }

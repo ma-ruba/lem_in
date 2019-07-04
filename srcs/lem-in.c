@@ -7,10 +7,11 @@ int	main(int argc, char **argv)
 
 	line = NULL;
 	room_nb = 0;
-	void reading_data(&str, line);
+	nbr = 0;
+	reading_data(&str, line);
 	if (checking_data())
 	{
 		algorithm();
 	}
-	void free_data();
+	free_data();
 }

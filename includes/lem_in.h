@@ -18,32 +18,43 @@
 # include <unistd.h>
 
 # define 			MAXV 7000   /*максимальное количество вершин */
+# define			BLOCKED 0
+# define			DELETED -1
 # define			OPENED 1
-# define			CLOSED 0
-# define			
+# define			NOT_GIVEN -1
 
 int					room_nb;
+int					nbr;
 
 typedef struct		s_room //ячейка массива структур комнат
 {
 	char			*name;
-	struct s_room	*neigb;
-	int				status;
+	t_list			*neigb;
+	int				value;
 }					t_room;
 
 typedef struct		s_list // ячейка списка соседей
 {
 	t_room			*room;
-	struct s_list	*next;		
+	struct s_list	*next;
+	int				status;
 }					t_list;
 
-typedef struct	s_reading_data
+typedef struct		s_reading_data
 {
     int				amount_of_ants;
     t_room			*start_room;
     t_room			*end_room;
 }					t_data;
 
+typedef struct		s_path	
+{
+	
+}					t_path;
+
+
 void			make_neigb_list(t_room *room, t_room *rooms, char *line);
+void    		deapth_search(t_room *start);
+void    		give_value(t_room *current, int	cur_val);
 
 #endif

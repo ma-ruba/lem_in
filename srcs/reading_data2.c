@@ -45,6 +45,11 @@ void	room_connections(t_room *room, char *line)
 	r.neigb = make_neighb_list(room, line);
 }
 
+void	sort_arr()
+{
+	
+}
+
 t_room	*find_room(char *buff, t_room *room)
 {
 
@@ -53,6 +58,7 @@ t_room	*find_room(char *buff, t_room *room)
 void	make_start(t_data *str, t_room *room, char *line)
 {
 	room[room_nb].name = ft_strdup(line);
+	room[room.nb].value = NOT_GIVEN;
 	str->start_room = &room[room_nb];
 	room_nb++;
 }
@@ -68,7 +74,7 @@ t_room	*make_struct_arr()
 {
 	t_room	*room;
 
-	if (!(room = (t_room*)malloc(sizeof(t_room) * 7001))
+	if (!(room = (t_room*)malloc(sizeof(t_room) * (MAXV + 1))))
 		return (NULL);
 	return (room);
 }
