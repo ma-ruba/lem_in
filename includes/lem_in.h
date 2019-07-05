@@ -31,6 +31,7 @@ typedef struct		s_room //ячейка массива структур комна
 	char			*name;
 	t_list			*neigb;
 	int				value;
+	int				status;
 }					t_room;
 
 typedef struct		s_list // ячейка списка соседей
@@ -49,12 +50,13 @@ typedef struct		s_reading_data
 
 typedef struct		s_path	
 {
-	
+	t_room			*room;
+	struct s_path	*next;
 }					t_path;
 
 
 void			make_neigb_list(t_room *room, t_room *rooms, char *line);
-void    		deapth_search(t_room *start);
-void    		give_value(t_room *current, int	cur_val);
+int				deapth_search(t_room *start, t_room *finish, t_path *path)
+int    			give_value(t_room *current, int	cur_val);
 
 #endif

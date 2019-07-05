@@ -58,7 +58,8 @@ t_room	*find_room(char *buff, t_room *room)
 void	make_start(t_data *str, t_room *room, char *line)
 {
 	room[room_nb].name = ft_strdup(line);
-	room[room.nb].value = NOT_GIVEN;
+	room[room.nb].value = NOT_GIVEN; // Нет в версии Милы
+	room[room.nb].status = OPENED; // Нет в версии Милы
 	str->start_room = &room[room_nb];
 	room_nb++;
 }
@@ -73,9 +74,16 @@ void	make_end(t_data *str, t_room *room, char *line)
 t_room	*make_struct_arr()
 {
 	t_room	*room;
+	int		i;
 
+	i = 0;
 	if (!(room = (t_room*)malloc(sizeof(t_room) * (MAXV + 1))))
 		return (NULL);
+	while (i != MAXV) // Нет в версии Милы
+	{
+		room[i] = NULL;
+		i++;
+	}
 	return (room);
 }
 
