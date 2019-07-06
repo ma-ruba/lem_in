@@ -24,7 +24,6 @@
 # define			NOT_GIVEN -1
 
 int					room_nb;
-int					nbr;
 
 typedef struct		s_room //ячейка массива структур комнат
 {
@@ -53,6 +52,12 @@ typedef struct		s_path
 	t_room			*room;
 	struct s_path	*next;
 }					t_path;
+
+typedef struct 		s_plist
+{
+	t_path			*path;
+	struct s_plist	*next;
+}					t_plist;
 
 
 void			make_neigb_list(t_room *room, t_room *rooms, char *line);

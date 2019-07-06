@@ -1,21 +1,48 @@
 #include "lem_in.h"
 
-void    	algorithm(t_room *start, t_room *finish)
+t_plist    	*algorithm(t_room *start, t_room *finish)
 {
 	t_path	*path;
+	t_plist	*plist;
+	int		index;
+	t_plist	*first;
 
-	path = NULL;
-	while (deapth_search(start, finish, path))
+	plist = NULL;
+	index = 0;
+	while (cutting_path(start, finish))
 	{
-		make_path(path, )
+		while (deapth_search(start, finish, path))
+		{
+			plist = make_path_list(plist, path);
+			if (index == 0)
+			{
+				first = plist;
+				index = 1;
+			}
+		}
 	}
+	return (first);
 }
 
-
-
-void		cutting_path()
+t_plist		*make_path_list(t_plist *prev, t_path *current)
 {
+	t_plist	*plist;
 
+	plist = (t_plist*)malloc(sizeof(t_plist));
+	if (prev)
+		prev->next = plist;
+	plist->next = NULL;
+	plist->path = current;
+	return (plist);
+}
+
+int			cutting_path(t_room *start, t_room *finish, t_plist *plist)
+{
+	if (plist)
+	{
+
+	}
+	return (1);
 }
 
 int			deapth_search(t_room *start, t_room *finish, t_path *path)
@@ -35,21 +62,20 @@ int			deapth_search(t_room *start, t_room *finish, t_path *path)
 	{
 		while (current->status != val - 1)
 			current = current->next;
-		path = make_path(path, current->room, 1);
+		path = make_path(path, current->room);
 		current = current->room->neigb;
 	}
 	return (1);
 }
 
-t_path		*make_path(t_path *prev, t_room *current, int index)
+t_path		*make_path(t_path *prev, t_room *current)
 {
 	t_path	*path;
 
 	path = (t_path*)malloc(sizeof(t_path));
 	path->next = prev;
 	path->room = current;
-	if (index == 1)
-		current->status = BLOCKED;
+	current->status = BLOCKED;
 	return (path);
 }
 

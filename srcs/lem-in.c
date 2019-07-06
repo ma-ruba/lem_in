@@ -7,7 +7,7 @@ int	main(int argc, char **argv)
 
 	line = NULL;
 	room_nb = 0;
-	nbr = 0;
+	index = 0;
 	reading_data(&str, line);
 	if (checking_data())
 	{
