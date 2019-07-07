@@ -38,11 +38,41 @@ t_plist		*make_path_list(t_plist *prev, t_path *current)
 
 int			cutting_path(t_room *start, t_room *finish, t_plist *plist)
 {
+	t_plist	*tmp;
+
+	tmp = plist;
 	if (plist)
 	{
-
+		unblock_rooms(plist);
+		block_direction(plist, start);
+		while (tmp->next)
+			tmp = tmp->next;
+		deapth_search(start, finish, tmp);
+		if (!both_directions(tmp))
+			return (0);
 	}
 	return (1);
+}
+
+int			both_directions(t_plist *plist, t_room *start)
+{
+	t_path	*tmp;
+	t_room	*tmp2;
+	int		count;
+
+	count = 0;
+	tmp = plist->path;
+	tmp2 = start;
+	while (tmp)
+	{
+		if (find_room3(tmp, tmp2))
+			count++;
+		tmp2 = tmp->room;
+		tmp = tmp->next;
+	}
+	if (count != 0)
+		return (1);
+	return (0);
 }
 
 int			deapth_search(t_room *start, t_room *finish, t_path *path)
@@ -105,7 +135,7 @@ int		give_values(t_room *start, t_room *finish, int cur_val)
 		queue[j++] = NULL;
 		while (tmp)
 		{
-			if (queue[i]->value == NOT_GIVEN && queue[i]->status == OPENED)
+			if (queue[i]->value == NOT_GIVEN && queue[i]->status == OPENED && tmp->status == OPENED)
 			{
 				queue[i] = tmp->room;
 				queue[i++]->value = cur_val;
