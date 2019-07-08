@@ -40,13 +40,6 @@ typedef struct		s_list // ячейка списка соседей
 	int				status;
 }					t_list;
 
-typedef struct		s_reading_data
-{
-    int				amount_of_ants;
-    t_room			*start_room;
-    t_room			*end_room;
-}					t_data;
-
 typedef struct		s_path	
 {
 	t_room			*room;
@@ -59,6 +52,12 @@ typedef struct 		s_plist
 	struct s_plist	*next;
 }					t_plist;
 
+typedef struct		s_reading_data
+{
+    int				amount_of_ants;
+    t_room			*start_room;
+    t_room			*end_room;
+}					t_data;
 
 void			make_neigb_list(t_room *room, t_room *rooms, char *line);
 int				deapth_search(t_room *start, t_room *finish, t_path *path)

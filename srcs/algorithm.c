@@ -9,9 +9,10 @@ t_plist    	*algorithm(t_room *start, t_room *finish)
 
 	plist = NULL;
 	index = 0;
-	while (cutting_path(start, finish))
+	path = NULL;
+	while (cutting_path(start, finish, plist))
 	{
-		while (deapth_search(start, finish, path))
+		while (width_search(start, finish, path))
 		{
 			plist = make_path_list(plist, path);
 			if (index == 0)
@@ -39,6 +40,7 @@ t_plist		*make_path_list(t_plist *prev, t_path *current)
 int			cutting_path(t_room *start, t_room *finish, t_plist *plist)
 {
 	t_plist	*tmp;
+	t_path	*new;
 
 	tmp = plist;
 	if (plist)
@@ -47,9 +49,17 @@ int			cutting_path(t_room *start, t_room *finish, t_plist *plist)
 		block_direction(plist, start);
 		while (tmp->next)
 			tmp = tmp->next;
-		deapth_search(start, finish, tmp);
-		if (!both_directions(tmp))
+		width_search(start, finish, new);
+		make_path_list(tmp, new);
+		if (!both_directions(tmp->next, start))
+		{
+			unblock_direction(plist);
+			free_path(plist);
 			return (0);
+		}
+		unblock_direction(plist);
+		free_pathlist(plist->path, plist);
+		plist = NULL;
 	}
 	return (1);
 }
@@ -75,7 +85,7 @@ int			both_directions(t_plist *plist, t_room *start)
 	return (0);
 }
 
-int			deapth_search(t_room *start, t_room *finish, t_path *path)
+int			width_search(t_room *start, t_room *finish, t_path *path)
 {
 	// Возможно path должно быть **
 	int		path_len;

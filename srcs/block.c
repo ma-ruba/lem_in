@@ -33,9 +33,29 @@ void		block_direction(t_plist *plist, t_room *start)
 	}
 }
 
-void		unblock_direction()
+void		unblock_direction(t_plist *plist)
 {
+	t_path	*tmp;
+	t_plist	*tmp2;
+	t_list	*tmp3;
 
+	tmp2 = plist;
+	while (tmp2)
+	{
+		tmp = tmp2->path;
+		while (tmp)
+		{
+			tmp3 = tmp->room->neigb;
+			while (tmp3)
+			{
+				if (tmp3->status == BLOCKED)
+					tmp3->status == OPENED;
+				tmp3 = tmp3->next;
+			}
+			tmp = tmp->next;
+		}
+		tmp2 = tmp2->next
+	}
 }
 
 void		find_room2(t_path *path, t_room *room)
@@ -51,7 +71,7 @@ void		find_room2(t_path *path, t_room *room)
 	}
 }
 
-int		find_room3(t_path *path, t_room *room)
+int			find_room3(t_path *path, t_room *room)
 {
 	t_list	*tmp;
 	int		count;
@@ -62,8 +82,19 @@ int		find_room3(t_path *path, t_room *room)
 	{
 		if (ft_strcmp(tmp->room->name, room->name))
 		{
-			tmp->status = DELETED;
-			count++;
+			if (tmp->status == BLOCKED)
+			{
+				tmp->status = DELETED;
+				count++;
+				tmp = room->neigb;
+				while (tmp)
+				{
+					if (ft_strcmp(path->room->name, tmp->room->name))
+						tmp->status = DELETED;
+					tmp = tmp->next;
+				}
+			}
+			break ;
 		}
 		tmp = tmp->next;
 	}
