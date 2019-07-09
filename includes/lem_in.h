@@ -28,17 +28,17 @@ int					room_nb;
 typedef struct		s_room //ячейка массива структур комнат
 {
 	char			*name;
-	t_list			*neigb;
+	t_nlist			*neigb;
 	int				value;
 	int				status;
 }					t_room;
 
-typedef struct		s_list // ячейка списка соседей
+typedef struct		s_nlist // ячейка списка соседей
 {
 	t_room			*room;
 	struct s_list	*next;
 	int				status;
-}					t_list;
+}					t_nlist;
 
 typedef struct		s_path	
 {
@@ -64,5 +64,23 @@ int					cutting_path(t_room *start, t_room *finish, t_plist *plist);
 int					both_directions(t_plist *plist, t_room *start);
 int					width_search(t_room *start, t_room *finish, t_path *path);
 int					give_values(t_room *start, t_room *finish, int cur_val);
+
+t_plist				*make_path_list(t_plist *prev, t_path *current);
+t_path				*make_path(t_path *prev, t_room *current);
+int					check_finish(t_room *finish, t_room *current);
+void				clean_values(t_room *arr);
+
+void				free_pathlist(t_path *path, t_plist *plist);
+void				free_path(t_plist *plist);
+void				free_neighb_list(t_room *room);
+
+void				block_direction(t_plist *plist, t_room *start);
+void				unblock_direction(t_plist *plist, t_room *start);
+void				unblock_start(t_room *start);
+void				find_room2(t_path *path, t_room *room);
+int					find_room3(t_path *path, t_room *room);
+void				unblock_rooms(t_plist *plist);
+
+void 				checking_data(t_data *str);
 
 #endif

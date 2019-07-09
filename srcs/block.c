@@ -33,11 +33,11 @@ void		block_direction(t_plist *plist, t_room *start) //норма
 	}
 }
 
-void		unblock_direction(t_plist *plist) //норма
+void		unblock_direction(t_plist *plist, t_room *start) //норма
 {
 	t_path	*tmp;
 	t_plist	*tmp2;
-	t_list	*tmp3;
+	t_nlist	*tmp3;
 
 	tmp2 = plist;
 	while (tmp2)
@@ -56,11 +56,25 @@ void		unblock_direction(t_plist *plist) //норма
 		}
 		tmp2 = tmp2->next
 	}
+	unblock_start(start);
+}
+
+void		unblock_start(t_room *start)
+{
+	t_nlist	*tmp3;
+
+	tmp3 = start->neigb;
+	while (tmp3)
+	{
+		if (tmp3->status == BLOCKED)
+			tmp3->status == OPENED;
+		tmp3 = tmp3->next;
+	}
 }
 
 void		find_room2(t_path *path, t_room *room) //норма
 {
-	t_list	*tmp;
+	t_nlist	*tmp;
 
 	tmp = room->neigb;
 	while (tmp)
@@ -71,9 +85,9 @@ void		find_room2(t_path *path, t_room *room) //норма
 	}
 }
 
-int			find_room3(t_path *path, t_room *room) // не норма (+3 строки)
+int			find_room3(t_path *path, t_room *room) // не норма (+6 строк)
 {
-	t_list	*tmp;
+	t_nlist	*tmp;
 	int		count;
 
 	count = 0;
@@ -90,7 +104,10 @@ int			find_room3(t_path *path, t_room *room) // не норма (+3 строки
 				while (tmp)
 				{
 					if (ft_strcmp(path->room->name, tmp->room->name))
+					{
 						tmp->status = DELETED;
+						break ;
+					}
 					tmp = tmp->next;
 				}
 			}

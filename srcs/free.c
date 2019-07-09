@@ -42,8 +42,8 @@ void		free_path(t_plist *plist) //норма
 void		free_neighb_list(t_room *room) //норма
 {
 	int		i;
-	t_list	*tmp;
-	t_list	*tmp2;
+	t_nlist	*tmp;
+	t_nlist	*tmp2;
 
 	i = 0;
 	while (i < room_nb)

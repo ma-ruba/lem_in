@@ -32,6 +32,7 @@ int			cutting_path(t_room *start, t_room *finish, t_plist *plist) //норма
 	t_plist	*tmp;
 	t_path	*new;
 
+	new = NULL;
 	tmp = plist;
 	if (plist)
 	{
@@ -43,11 +44,10 @@ int			cutting_path(t_room *start, t_room *finish, t_plist *plist) //норма
 		make_path_list(tmp, new);
 		if (!both_directions(tmp->next, start))
 		{
-			unblock_direction(plist);
 			free_path(plist);
 			return (0);
 		}
-		unblock_direction(plist);
+		unblock_direction(plist, start);
 		free_pathlist(plist->path, plist);
 		plist = NULL;
 	}
@@ -79,7 +79,7 @@ int			width_search(t_room *start, t_room *finish, t_path *path) //норма
 {
 	// Возможно path должно быть **
 	int		val;
-	t_list	*current;
+	t_nlist	*current;
 
 	current = finish->neigb;
 	start->value = 0;

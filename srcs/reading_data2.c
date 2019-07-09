@@ -1,91 +1,62 @@
 #include "lem_in.h"
 
-t_room		*reading_data(t_data *str, char *line)
+static int	partition(t_room *room, int low, int high)
 {
-	int		i;
-	t_room	*room;
+	t_list pivot;
+	int i;
+	int j;
 
-	room = make_struct_arr();
-	get_next_line(0, &line);
-	if (line[0] == "#" && line[1] != '#')
-		get_next_line(0, &line);
-	str->amount_of_ants = ft_atoi(line);
-	while (get_next_line(0, &line))
+	i = (low - 1);
+	pivot = room[high];
+	j = low;
+	while (j <= high - 1)
 	{
-		i = -1;
-		if (line[0] == "#" && line[1] != '#')
-			get_next_line(0, &line);
-		else if (ft_strequ(line, "##start"))
+		if (ft_strcmp(room[j]->name, room[pivot]->name) <= 0) //???
 		{
-			get_next_line(0, &line);
-			make_start(str, room, line)
+			i++;
+			ft_uniswap(&room[i], &room[j], t_room *room);
 		}
-		else if (ft_strequ(line, "##end"))
-		{
-			get_next_line(0, &line);
-			make_end(str, room, line);
-		}
-		else if (checking_dash(line))
-			other_rooms(line, room);
-		else
-			rooms_connections(room, line);
+		j++;
 	}
-	return (room);
+	ft_uniswap(&room[i + 1], &room[high], t_room *room);
+	return (i + 1);
 }
 
-void		room_connections(t_room *room, char *line)
+void sorting_rooms(t_room *room)
 {
-	int		i;
-	t_room	*r;
+	int low;
+	int high;
+	int pi;
 
-	i = 0;
-	while (line[i] != ' ')
-		i++;
-	line[i] = '\0';
-	r = find_room(ft_strdup(line), room);
-	r.neigb = make_neighb_list(room, line);
-}
-
-void	sort_arr()
-{
-	
+	low = 0;
+	high = room_nb;
+	if (low < high)
+	{
+		pi = partition(room, low, high);
+		quick_sort(room, low, pi - 1);
+		quick_sort(room, pi + 1, high);
+	}
 }
 
 t_room	*find_room(char *buff, t_room *room)
 {
+	int start;
+	int end;
+	int middle;
 
-}
-
-void	make_start(t_data *str, t_room *room, char *line)
-{
-	room[room_nb].name = ft_strdup(line);
-	room[room.nb].value = NOT_GIVEN; // Нет в версии Милы
-	room[room.nb].status = OPENED; // Нет в версии Милы
-	str->start_room = &room[room_nb];
-	room_nb++;
-}
-
-void	make_end(t_data *str, t_room *room, char *line)
-{
-	room[room_nb].name = ft_strdup(line);
-	str->end_room = &room[room_nb];
-	room_nb++;
-}
-
-t_room	*make_struct_arr()
-{
-	t_room	*room;
-	int		i;
-
-	i = 0;
-	if (!(room = (t_room*)malloc(sizeof(t_room) * (MAXV + 1))))
-		return (NULL);
-	while (i != MAXV) // Нет в версии Милы
+	start = 0;
+	end = room_nb;
+	while (start <= end)
 	{
-		room[i] = NULL;
-		i++;
+		middle = (start + end) / 2;
+		res = ft_strcmp(room->name[middle], buff);
+		if (res > 0)
+			end = middle - 1;
+		if (res < 0)
+			start = middle + 1;
+		else
+			return (room->name[middle]);
 	}
-	return (room);
 }
 
 int		checking_dash(char *line)

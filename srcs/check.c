@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-void checking_data(t_data *str)
+void checking_data(t_data *str) //проверить связи
 {
     if (str->amount_of_ants && str->start_room && str->end_room)
         return (1);
