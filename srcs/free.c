@@ -1,6 +1,6 @@
 #include "lem_in.h"
 
-void		free_pathlist(t_path *path, t_plist *plist)
+void		free_pathlist(t_path *path, t_plist *plist) //норма
 {
 	t_path	*tmp;
 	t_plist	*tmp2;
@@ -19,7 +19,7 @@ void		free_pathlist(t_path *path, t_plist *plist)
 	}
 }
 
-void		free_path(t_plist *plist)
+void		free_path(t_plist *plist) //норма
 {
 	t_plist	*tmp;
 	t_path	*tmp2;
@@ -37,4 +37,24 @@ void		free_path(t_plist *plist)
 	}
 	free (tmp->next);
 	tmp->next = NULL;
+}
+
+void		free_neighb_list(t_room *room) //норма
+{
+	int		i;
+	t_list	*tmp;
+	t_list	*tmp2;
+
+	i = 0;
+	while (i < room_nb)
+	{
+		tmp = room[i++]->neigb;
+		while (tmp)
+		{
+			tmp2 = tmp;
+			tmp = tmp->next;
+			free (tmp2);
+		}
+	}
+	free (room);
 }

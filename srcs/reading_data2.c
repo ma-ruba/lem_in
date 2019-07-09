@@ -1,6 +1,6 @@
 #include "lem_in.h"
 
-void 	reading_data(t_data *str, char *line)
+t_room		*reading_data(t_data *str, char *line)
 {
 	int		i;
 	t_room	*room;
@@ -30,9 +30,10 @@ void 	reading_data(t_data *str, char *line)
 		else
 			rooms_connections(room, line);
 	}
+	return (room);
 }
 
-void	room_connections(t_room *room, char *line)
+void		room_connections(t_room *room, char *line)
 {
 	int		i;
 	t_room	*r;

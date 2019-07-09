@@ -59,8 +59,10 @@ typedef struct		s_reading_data
     t_room			*end_room;
 }					t_data;
 
-void			make_neigb_list(t_room *room, t_room *rooms, char *line);
-int				deapth_search(t_room *start, t_room *finish, t_path *path)
-int    			give_value(t_room *current, int	cur_val);
+t_plist    			*algorithm(t_room *start, t_room *finish);
+int					cutting_path(t_room *start, t_room *finish, t_plist *plist);
+int					both_directions(t_plist *plist, t_room *start);
+int					width_search(t_room *start, t_room *finish, t_path *path);
+int					give_values(t_room *start, t_room *finish, int cur_val);
 
 #endif

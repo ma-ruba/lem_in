@@ -12,7 +12,7 @@
 
 #include "lem_in.h"
 
-void		block_direction(t_plist *plist, t_room *start)
+void		block_direction(t_plist *plist, t_room *start) //норма
 {
 	t_path	*tmp;
 	t_plist	*tmp2;
@@ -33,7 +33,7 @@ void		block_direction(t_plist *plist, t_room *start)
 	}
 }
 
-void		unblock_direction(t_plist *plist)
+void		unblock_direction(t_plist *plist) //норма
 {
 	t_path	*tmp;
 	t_plist	*tmp2;
@@ -58,7 +58,7 @@ void		unblock_direction(t_plist *plist)
 	}
 }
 
-void		find_room2(t_path *path, t_room *room)
+void		find_room2(t_path *path, t_room *room) //норма
 {
 	t_list	*tmp;
 
@@ -71,7 +71,7 @@ void		find_room2(t_path *path, t_room *room)
 	}
 }
 
-int			find_room3(t_path *path, t_room *room)
+int			find_room3(t_path *path, t_room *room) // не норма (+3 строки)
 {
 	t_list	*tmp;
 	int		count;
@@ -103,7 +103,7 @@ int			find_room3(t_path *path, t_room *room)
 	return (0);
 }
 
-void		unblock_rooms(t_plist *plist)
+void		unblock_rooms(t_plist *plist) // норма
 {
 	t_plist	*tmp;
 	t_path	*tmp2;
