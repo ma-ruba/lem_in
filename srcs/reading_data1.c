@@ -1,6 +1,6 @@
 #include "lem_in.h"
 
-t_room		*reading_data(t_data *str, char *line) //можно переписать, чтобы быстрее работало. Как только 1 раз встретилось
+t_room		*reading_data(t_data *str, char *line, int fd) //можно переписать, чтобы быстрее работало. Как только 1 раз встретилось
 //тире, дальше идут только связи комнат + чтение не с консоли а из файла!!!!!
 {
 	int		i;
@@ -9,25 +9,31 @@ t_room		*reading_data(t_data *str, char *line) //можно переписать
 
 	index = 0;
 	room = make_struct_arr();
-	get_next_line(0, &line);
+	get_next_line(fd, &line);
 	str->amount_of_ants = ft_atoi(line); // Сначала же муравьи
 	/*if (line[0] == "#" && line[1] != '#')
 		get_next_line(0, &line);*/
-	while (get_next_line(0, &line))
+	index = str->amount_of_ants;
+	while (get_next_line(fd, &line))
 	{
 		i = -1;
 		if (ft_strequ(line, "##start"))
 		{
-			get_next_line(0, &line);
+			free(line);
+			get_next_line(fd, &line);
 			make_start(str, room, line)
 		}
 		else if (ft_strequ(line, "##end"))
 		{
-			get_next_line(0, &line);
+			free(line);
+			get_next_line(fd, &line);
 			make_end(str, room, line);
 		}
 		else if (line[0] == "#" && line[1] != '#')
-			get_next_line(0, &line);
+		{
+			free(line);
+			get_next_line(fd, &line);
+		}
 		else if (checking_dash(line))
 			rooms_connections(room, line);
 		else
@@ -37,6 +43,7 @@ t_room		*reading_data(t_data *str, char *line) //можно переписать
 			other_rooms(line, room);
 			index = 1;
 		}
+		free(line);
 	}
 	return (room);
 }
@@ -62,7 +69,7 @@ void		make_start(t_data *str, t_room *room, char *line) //посмотрела. 
 	while (line[i] != ' ')
 		i++;
 	line[i] = '\0';
-	room[room_nb].name = ft_strdup(line); //память должна удаляться!!!!!!!!!!
+	room[room_nb].name = ft_strdup(line);
 	room[room.nb].value = NOT_GIVEN;
 	room[room.nb].status = OPENED;
 	str->start_room = &room[room_nb];
@@ -77,7 +84,7 @@ void		make_end(t_data *str, t_room *room, char *line) //посмотрела. В
 	while (line[i] != ' ')
 		i++;
 	line[i] = '\0';
-	room[room_nb].name = ft_strdup(line); //память должна удаляться!!!!!!!!!!
+	room[room_nb].name = ft_strdup(line);
 	room[room.nb].value = NOT_GIVEN;
 	room[room.nb].status = OPENED;
 	str->end_room = &room[room_nb];

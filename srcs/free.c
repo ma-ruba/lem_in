@@ -48,7 +48,8 @@ void		free_neighb_list(t_room *room) //норма
 	i = 0;
 	while (i < room_nb)
 	{
-		tmp = room[i++]->neighb;
+		tmp = room[i]->neighb;
+		free (room[i++].name);
 		while (tmp)
 		{
 			tmp2 = tmp;

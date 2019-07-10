@@ -14,7 +14,7 @@
 
 void checking_data(t_data *str) //проверить связи
 {
-    if (str->amount_of_ants && str->start_room && str->end_room)
+    if (str->amount_of_ants > 1 && str->start_room && str->end_room)
         return (1);
     else
     {

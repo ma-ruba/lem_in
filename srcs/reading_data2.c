@@ -14,11 +14,11 @@ static int	partition(t_room *room, int low, int high)
 		if (ft_strcmp(room[j]->name, room[pivot]->name) <= 0) //???
 		{
 			i++;
-			ft_uniswap(&room[i], &room[j], t_room *room);
+			ft_uniswap(&room[i], &room[j], sizeof(t_room));
 		}
 		j++;
 	}
-	ft_uniswap(&room[i + 1], &room[high], t_room *room);
+	ft_uniswap(&room[i + 1], &room[high], sizeof(t_room));
 	return (i + 1);
 }
 
@@ -29,7 +29,7 @@ void sorting_rooms(t_room *room)
 	int pi;
 
 	low = 0;
-	high = room_nb;
+	high = room_nb - 1;
 	if (low < high)
 	{
 		pi = partition(room, low, high);
@@ -38,28 +38,29 @@ void sorting_rooms(t_room *room)
 	}
 }
 
-t_room	*find_room(char *buff, t_room *room)
+t_room	*find_room(char *buff, t_room *room) //Посмотрела. Все ОК!
 {
 	int start;
 	int end;
 	int middle;
+	int	res;
 
 	start = 0;
 	end = room_nb;
 	while (start <= end)
 	{
 		middle = (start + end) / 2;
-		res = ft_strcmp(room->name[middle], buff);
+		res = ft_strcmp(room[middle]->name, buff);
 		if (res > 0)
 			end = middle - 1;
-		if (res < 0)
+		else if (res < 0)
 			start = middle + 1;
 		else
-			return (room->name[middle]);
+			return (room[middle]->name);
 	}
 }
 
-int		checking_dash(char *line)
+int		checking_dash(char *line) //Посмотрела. Все ОК!
 {
 	int	i;
 
@@ -73,7 +74,7 @@ int		checking_dash(char *line)
 	return (0);
 }
 
-void	other_rooms(char *line, t_room *room)
+void	other_rooms(char *line, t_room *room) //Посмотрела. Все ОК!
 {
 	int	i;
 
@@ -81,7 +82,7 @@ void	other_rooms(char *line, t_room *room)
 	while (line[i] != ' ')
 		i++;
 	line[i] = '\0';
-	room[room_nb].name = ft_strdup(line); //память должна удаляться!!!!!!!!!!
+	room[room_nb].name = ft_strdup(line);
 	room[room.nb].value = NOT_GIVEN;
 	room[room.nb].status = OPENED;
 	room_nb++;
