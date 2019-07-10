@@ -81,7 +81,7 @@ int			width_search(t_room *start, t_room *finish, t_path *path) //норма
 	int		val;
 	t_nlist	*current;
 
-	current = finish->neigb;
+	current = finish->neighb;
 	start->value = 0;
 	path = NULL;
 	if (!give_values(start, finish, 1))
@@ -92,7 +92,7 @@ int			width_search(t_room *start, t_room *finish, t_path *path) //норма
 		while (current->room->value != val - 1)
 			current = current->next;
 		path = make_path(path, current->room);
-		current = current->room->neigb;
+		current = current->room->neighb;
 		val--;
 	}
 	return (1);
@@ -100,7 +100,7 @@ int			width_search(t_room *start, t_room *finish, t_path *path) //норма
 
 int			give_values(t_room *start, t_room *finish, int cur_val) //не норма (+12 строк)
 {
-	t_room	*queue;
+	t_room	**queue; // спросить у папы
 	int		i;
 	int		j;
 	int		block;
@@ -109,8 +109,8 @@ int			give_values(t_room *start, t_room *finish, int cur_val) //не норма 
 	i = 0;
 	j = 0;
 	block = 1;
-	queue = make_struct_arr();
-	tmp = start->neigb;
+	queue = make_queue();
+	tmp = start->neighb;
 	queue[i++] = start;
 	while (queue[j] != NULL)
 	{
@@ -133,7 +133,7 @@ int			give_values(t_room *start, t_room *finish, int cur_val) //не норма 
 			cur_val++;
 		if (j == block)
 			block = i;
-		tmp = queue[j]->neigb;
+		tmp = queue[j]->neighb;
 	}
 	free (queue);
 	return (0);

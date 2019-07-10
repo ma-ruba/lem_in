@@ -28,7 +28,7 @@ int					room_nb;
 typedef struct		s_room //ячейка массива структур комнат
 {
 	char			*name;
-	t_nlist			*neigb;
+	t_nlist			*neighb;
 	int				value;
 	int				status;
 }					t_room;

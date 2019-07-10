@@ -2,7 +2,7 @@
 
 static int	partition(t_room *room, int low, int high)
 {
-	t_list pivot;
+	t_nlist pivot;
 	int i;
 	int j;
 
@@ -81,6 +81,8 @@ void	other_rooms(char *line, t_room *room)
 	while (line[i] != ' ')
 		i++;
 	line[i] = '\0';
-	room[room_nb].name = ft_strdup(line);
+	room[room_nb].name = ft_strdup(line); //память должна удаляться!!!!!!!!!!
+	room[room.nb].value = NOT_GIVEN;
+	room[room.nb].status = OPENED;
 	room_nb++;
 }

@@ -91,7 +91,7 @@ int			find_room3(t_path *path, t_room *room) // не норма (+6 строк)
 	int		count;
 
 	count = 0;
-	tmp = path->room->neigb;
+	tmp = path->room->neighb;
 	while (tmp)
 	{
 		if (ft_strcmp(tmp->room->name, room->name))
@@ -100,7 +100,7 @@ int			find_room3(t_path *path, t_room *room) // не норма (+6 строк)
 			{
 				tmp->status = DELETED;
 				count++;
-				tmp = room->neigb;
+				tmp = room->neighb;
 				while (tmp)
 				{
 					if (ft_strcmp(path->room->name, tmp->room->name))

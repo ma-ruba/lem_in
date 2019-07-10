@@ -38,3 +38,19 @@ void		clean_values(t_room *arr)
 	while (i < room_nb)
 		arr[i++]->value = NOT_GIVEN;
 }
+
+t_room		**make_queue()
+{
+	t_room	**room;
+	int		i;
+
+	i = 0;
+	if (!(room = (t_room**)malloc(sizeof(t_room*) * (MAXV + 1))))
+		return (NULL);
+	while (i != MAXV + 1)
+	{
+		*room[i] = NULL;
+		i++;
+	}
+	return (room);
+}
