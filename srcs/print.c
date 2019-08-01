@@ -12,86 +12,71 @@
 
 #include "lem_in.h"
 
-void ants_going_through_graph(t_plist *pointers, t_array *pathes, t_data *read) // нигде не плюсуются муравьи в конечной комнате
+void 		ants_going_through_graph(t_plist *pointers, int num_of_pathes, t_data *read) //норма
 {
-	int value_of_ants;
-	int *array_num_ant;
-	t_plist *tmp;
-	t_path *tmp2;
-	int		i;
-	int		l;
+	int 	value_of_ants;
+	int 	*array_num_ant;
 
-	array_num_ant = malloc(sizeof(int) * read->amount_of_ants);
-	ft_memset(array_num_ant, -1, read->amount_of_ants);
-	ft_bzero(); // is_ant_inside
-	tmp = pointers;
-	l = read->amount_of_ants;
+	array_num_ant = (int*)ft_memalloc(sizeof(int) * read->amount_of_ants);
+	ft_arrset(array_num_ant, -1, read->amount_of_ants);
+	value_of_ants = 0;
+	read->l = read->amount_of_ants;
+	read->end_room->is_ant_inside = 0;
 	read->ants_in_the_end_room = 0;
-	while (read->ants_in_the_end_room != l)
+	read->number_of_pathes = num_of_pathes;
+	read->delta = (int*)ft_memalloc(sizeof(int) * num_of_pathes);
+	while (read->ants_in_the_end_room != read->l)
 	{
 		if (read->amount_of_ants > 0)
-			moving_ants(pathes, array_num_ant, read, &value_of_ants, pointers);
-		ants_printing(pointers, &value_of_ants);
-		i = pathes->num_of_pathes;
-		while (i--)
-		{
-			tmp2 = tmp->path;
-			while (tmp2->room->is_ant_inside == 1 && tmp2->next)
-				tmp2 = tmp2->next;
-			tmp->path->room->is_ant_inside = 0;
-			if (tmp2->next)
-				tmp2->room->is_ant_inside == 1;
-			if (tmp->next)
-				tmp = tmp->next;
-		}
+			moving_ants(array_num_ant, read, &value_of_ants, pointers);
+		ants_printing(pointers, &value_of_ants, array_num_ant, read);
+		if (!value_of_ants)
+			return ;
+		ants_inside(pointers, num_of_pathes, read);
+	}
+	free(array_num_ant);
+}
+
+void		ants_inside(t_plist *pointers, int j, t_data *read)//норма
+{
+	t_plist *tmp;
+	t_path	*tmp2;
+	t_path	*save;
+
+	i = 0;
+	tmp = pointers;
+	while (j--)
+	{
+		read->end_room->is_ant_inside = END;
+		tmp2 = tmp->path;
+		while (tmp2->next && tmp2->room->is_ant_inside == 0)
+			tmp2 = tmp2->next;
+		save = tmp2;
+		while (tmp2->next && tmp2->room->is_ant_inside == 1)
+			tmp2 = tmp2->next;
+		if (!ft_strequ(tmp2->room->name, read->end_room->name))
+			tmp2->room->is_ant_inside = 1;
+		else
+			(read->delta[i++])++;
+		save->room->is_ant_inside = 0;
+		tmp = tmp->next;
 	}
 }
 
-void		moving_ants(t_array *pathes, int *array_num_ant, t_data *read, int *value_of_ants, t_plist *plist) //не помечаются в массиве муравьи пришедшие к финишу
+void		moving_ants(int *array_num_ant, t_data *read, int *value_of_ants, t_plist *plist) //норма
 {
 	int 	j;
 	t_plist	*tmp;
 
 	tmp = plist;
-	j = pathes->num_of_pathes;
+	j = read->number_of_pathes;
 	while (j && read->amount_of_ants)
 	{
-		plist->path->room->is_ant_inside = 1;
-		array_num_ant[index--] = ++n_ant;
+		tmp->path->room->is_ant_inside = 1;
+		array_num_ant[--index1] = ++n_ant;
 		(read->amount_of_ants)--;
-		value_of_ants++;
+		(*value_of_ants)++;
 		j--;
-		if (tmp->next)
-			tmp = tmp->next;
-		if (tmp->path->next == NULL)
-			(read->ants_in_the_end_room)++;
-	}
-}
-
-void		ants_printing(t_plist *plist, int *value_of_ants, int *array_num_ant) // Проблемы с распечаткой. каждому муравью печатается не та комната
-{
-	int 	k;
-	t_plist	*tmp;
-	t_path	*tmp2;
-
-	tmp = plist;
-	while (*value_of_ants > 0)
-	{
-		tmp2 = tmp->path;
-		write(1, "L", 1);
-		while (array_num_ant[index3] == -1)
-			index3++;
-		k = index3;
-		printf("%i", array_num_ant[k++]);
-		write(1, "-", 1);
-		while (tmp2->next->room->is_ant_inside != 0)
-			tmp2 = tmp2->next;
-		printf("%s", tmp2->room->name);
 		tmp = tmp->next;
-		if (*value_of_ants == 1)
-			write(1, "\n", 1);
-		else
-			write(1, " ", 1);
-		(*value_of_ants)--;
 	}
 }

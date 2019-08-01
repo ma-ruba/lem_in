@@ -1,20 +1,27 @@
 #include "lem_in.h"
 
-void	creating_of_array(t_array *pathes)
+t_array	*creating_of_array() //норма
 {
-	pathes = (t_array*)malloc(sizeof(t_array) * 2);
-	pathes->num_of_steps = 0;
-	pathes->num_of_pathes = 0;
+	t_array	*pathes;
+
+	pathes = (t_array*)ft_memalloc(sizeof(t_array) * 2);
+	pathes[0].num_of_steps = 0;
+	pathes[0].num_of_pathes = 0;
+	pathes[1].num_of_steps = 0;
+	pathes[1].num_of_pathes = 0;
+	return (pathes);
 }
 
-int number_of_pathes(int *num_of_pathes, t_data *read, t_plist *pointers, t_array *pathes)
+int 	number_of_pathes(t_data *read, t_plist *pointers, t_array *pathes) //норма
 {
 	int number_of_steps;
 	int sum_p; // длина всех путей
 	int num_p; // количество всех путей
 	t_plist *tmp;
-	t_array *tmp2;
+	t_path *tmp2;
 	
+	num_p = 1;
+	sum_p = 0;
 	tmp = pointers; // указатель для того, чтобы выяснить, сколько путей
 	while (tmp)
 	{
@@ -26,41 +33,40 @@ int number_of_pathes(int *num_of_pathes, t_data *read, t_plist *pointers, t_arra
 		}
 		number_of_steps = (read->amount_of_ants + sum_p - 1) / num_p;
 		tmp = tmp->next;
-		num_p += 1;
-		comparing_of_values(pathes, number_of_steps, num_p);
+		comparing_of_values(pathes, number_of_steps, num_p++);
 	}
-	if (pathes[0]->num_of_pathes != 0)
-		return (pathes[0]->num_of_pathes);
+	if (pathes[0].num_of_pathes != 0)
+		return (pathes[0].num_of_pathes);
 	else
-		return (pathes[1]->num_of_pathes);
+		return (pathes[1].num_of_pathes);
 }
 
-void	comparing_of_values(t_array *pathes, int number_of_steps, int num_p)
+void	comparing_of_values(t_array *pathes, int number_of_steps, int num_p) //не норма +1 строка
 {
-	if (pathes[0]->num_of_pathes == 0 && pathes[1]->num_of_pathes == 0)
+	if (pathes[0].num_of_pathes == 0 && pathes[1].num_of_pathes == 0)
 	{
-		pathes[0]->num_of_pathes = num_p;
-		pathes[0]->num_of_steps = number_of_steps;
+		pathes[0].num_of_pathes = num_p;
+		pathes[0].num_of_steps = number_of_steps;
 		return ;
 	}
-	else if (pathes[0]->num_of_pathes != 0 && pathes[1]->num_of_pathes == 0)
+	else if (pathes[0].num_of_pathes != 0 && pathes[1].num_of_pathes == 0)
 	{
-		pathes[1]->num_of_pathes = num_p;
-		pathes[1]->num_of_steps = number_of_steps;
+		pathes[1].num_of_pathes = num_p;
+		pathes[1].num_of_steps = number_of_steps;
 	}
-	else if (pathes[0]->num_of_pathes == 0 && pathes[1]->num_of_pathes != 0)
+	else if (pathes[0].num_of_pathes == 0 && pathes[1].num_of_pathes != 0)
 	{
-		pathes[0]->num_of_pathes[0] = num_p;
-		pathes[0]->num_of_steps = number_of_steps;
+		pathes[0].num_of_pathes = num_p;
+		pathes[0].num_of_steps = number_of_steps;
 	}
-	if (pathes[0]->num_of_pathes > pathes[1]->num_of_pathes)
+	if (pathes[0].num_of_steps > pathes[1].num_of_steps)
 	{
-		pathes[0]->num_of_pathes = 0;
-		pathes[0]->num_of_steps = 0;
+		pathes[0].num_of_pathes = 0;
+		pathes[0].num_of_steps = 0;
 	}
 	else
 	{
-		pathes[1]->num_of_pathes = 0;
-		pathes[1]->num_of_steps = 0;
+		pathes[1].num_of_pathes = 0;
+		pathes[1].num_of_steps = 0;
 	}
 }

@@ -45,29 +45,29 @@ void		unblock_direction(t_plist *plist, t_room *start) //норма
 		tmp = tmp2->path;
 		while (tmp)
 		{
-			tmp3 = tmp->room->neigb;
+			tmp3 = tmp->room->neighb;
 			while (tmp3)
 			{
 				if (tmp3->status == BLOCKED)
-					tmp3->status == OPENED;
+					tmp3->status = OPENED;
 				tmp3 = tmp3->next;
 			}
 			tmp = tmp->next;
 		}
-		tmp2 = tmp2->next
+		tmp2 = tmp2->next;
 	}
 	unblock_start(start);
 }
 
-void		unblock_start(t_room *start)
+void		unblock_start(t_room *start)//норма
 {
 	t_nlist	*tmp3;
 
-	tmp3 = start->neigb;
+	tmp3 = start->neighb;
 	while (tmp3)
 	{
 		if (tmp3->status == BLOCKED)
-			tmp3->status == OPENED;
+			tmp3->status = OPENED;
 		tmp3 = tmp3->next;
 	}
 }
@@ -76,11 +76,14 @@ void		find_room2(t_path *path, t_room *room) //норма
 {
 	t_nlist	*tmp;
 
-	tmp = room->neigb;
+	tmp = room->neighb;
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->room->name, path->room->name))
+		if (ft_strequ(tmp->room->name, path->room->name))
+		{
 			tmp->status = BLOCKED;
+			return ;
+		}
 		tmp = tmp->next;
 	}
 }
@@ -125,15 +128,18 @@ void		unblock_rooms(t_plist *plist) // норма
 	t_plist	*tmp;
 	t_path	*tmp2;
 
-	tmp =  plist;
-	while (tmp)
+	if (plist)
 	{
-		tmp2 = tmp->path;
-		while (tmp2)
+		tmp =  plist;
+		while (tmp)
 		{
-			tmp2->room->status = OPENED;
-			tmp2 = tmp2->next;
+			tmp2 = tmp->path;
+			while (tmp2 && tmp2->room)
+			{
+				tmp2->room->status = OPENED;
+				tmp2 = tmp2->next;
+			}
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
 	}
 }

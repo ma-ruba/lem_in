@@ -39,7 +39,13 @@ void		free_path(t_plist *plist) //норма
 	tmp->next = NULL;
 }
 
-void		free_neighb_list(t_room *room) //норма
+static void	free_data(t_data *str)
+{
+	free(str->start);
+	free(str->end);
+}
+
+void		free_neighb_list(t_room *room, t_data *str) //норма
 {
 	int		i;
 	t_nlist	*tmp;
@@ -48,7 +54,7 @@ void		free_neighb_list(t_room *room) //норма
 	i = 0;
 	while (i < room_nb)
 	{
-		tmp = room[i]->neighb;
+		tmp = room[i].neighb;
 		free (room[i++].name);
 		while (tmp)
 		{
@@ -58,4 +64,5 @@ void		free_neighb_list(t_room *room) //норма
 		}
 	}
 	free (room);
+	free_data(str);
 }

@@ -12,13 +12,14 @@
 
 #include "lem_in.h"
 
-int checking_data(t_data *str) //проверить связи
+void    malloc_error()//норма
 {
-    if (str->amount_of_ants > 0 && str->start_room && str->end_room && room_nb > 2) //?
-        return (1);
-    else
-    {
-        write(1, "Error\n", 6);
-        exit (1);
-    }
+    printf("malloc error\n");
+    exit(1);
+}
+
+void    map_error()//норма
+{
+    write(1, "Error\n", 6);
+    exit(1);
 }
