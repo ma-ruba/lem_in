@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include <stdio.h> // НЕ ЗАБЫТЬ ВСТАВИТЬ СВОЙ PRINTF!!!!!!!!!!!!!!!!!!!!!!!
 
-# define 			MAXV 70   /*максимальное количество вершин */
+# define 			MAXV 7000   /*максимальное количество вершин */
 # define			BLOCKED 0
 # define			DELETED -1
 # define			OPENED 1
@@ -106,8 +106,13 @@ int					find_room3(t_path *path, t_room *room);
 void				unblock_rooms(t_plist *plist);
 
 int 				checking_data(t_data *str);
+int     			check_room(char **line);
+int     			check_ants(const int fd, char **line);
+void     			check(char *line, int fd, t_data *str, t_room *room, int *index);
 
 t_room				*reading_data(t_data *str, char *line, int fd);
+void				read_start(char *line, int fd, t_data *str, t_room *room);
+void				read_end(char *line, int fd, t_data *str, t_room *room);
 void				room_connections(t_room *room, char *line);
 void				make_start(t_data *str, t_room *room, char *line);
 void				make_end(t_data *str, t_room *room, char *line);

@@ -9,7 +9,27 @@ static void set_neighb(t_room *room)//норма
 		room[i].neighb = NULL;
 }
 
-t_room		*reading_data(t_data *str, char *line, int fd)//не норма +25 строк
+void		read_start(char *line, int fd, t_data *str, t_room *room)
+{
+	printf("%s\n", line);
+	free(line);
+	get_next_line(fd, &line);
+	check_room(&line);
+	printf("%s\n", line);
+	make_start(str, room, line);
+}
+
+void		read_end(char *line, int fd, t_data *str, t_room *room)
+{
+	printf("%s\n", line);
+	free(line);
+	get_next_line(fd, &line);
+	check_room(&line);
+	printf("%s\n", line);
+	make_end(str, room, line);
+}
+
+t_room		*reading_data(t_data *str, char *line, int fd)//норма
 {
 	int		i;
 	t_room	*room;
@@ -17,52 +37,15 @@ t_room		*reading_data(t_data *str, char *line, int fd)//не норма +25 ст
 
 	index = 0;
 	room = make_struct_arr();
-	get_next_line(fd, &line);
-	str->amount_of_ants = ft_atoi(line); // Сначала же муравьи
-	/*if (line[0] == "#" && line[1] != '#')
-		get_next_line(0, &line);*/
+	if (!check_ants(fd, &line))
+		map_error();
+	str->amount_of_ants = ft_atoi(line);
 	index1 = str->amount_of_ants;
 	index3 = str->amount_of_ants - 1;
 	while (get_next_line(fd, &line))
 	{
 		i = -1;
-		if (ft_strequ(line, "##start"))
-		{
-			printf("%s\n", line);
-			free(line);
-			get_next_line(fd, &line);
-			printf("%s\n", line);
-			make_start(str, room, line);
-		}
-		else if (ft_strequ(line, "##end"))
-		{
-			printf("%s\n", line);
-			free(line);
-			get_next_line(fd, &line);
-			printf("%s\n", line);
-			make_end(str, room, line);
-		}
-		else if (line[0] == '#' && line[1] != '#')
-		{
-			printf("%s\n", line);
-			free(line);
-			continue ;
-			//get_next_line(fd, &line);
-		}
-		else if (checking_dash(line))
-		{
-			printf("%s\n", line);
-			if (index == 0)
-				sorting_rooms(room, 0, room_nb - 1, str);
-			index = 1;
-			room_connections(room, line);
-		}
-		else
-		{
-			printf("%s\n", line);
-			other_rooms(line, room);
-		}
-		free(line);
+		check(line, fd, str, room, &index);
 	}
 	return (room);
 }

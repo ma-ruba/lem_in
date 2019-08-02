@@ -68,6 +68,7 @@ t_room	*find_room(char *buff, t_room *room) //норма
 		else
 			return (&room[middle]);
 	}
+	map_error();
 	return (NULL);
 }
 
