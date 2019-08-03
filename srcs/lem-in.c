@@ -35,6 +35,7 @@ int			main(int argc, char **argv) //норма
 	if (fd == -1)
 		exit (1);
 	room = reading_data(&str, line, fd);
+	printf("\n");
 	if (checking_data(&str))
 	{
 		if (!(path_list = algorithm(str.start_room, str.end_room, room)))
@@ -46,4 +47,5 @@ int			main(int argc, char **argv) //норма
 		free_pathlist(path_list->path, path_list);
 	}
 	free_neighb_list(room, &str);
+	return (0);
 }

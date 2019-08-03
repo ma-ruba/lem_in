@@ -21,6 +21,5 @@ void    malloc_error()//норма
 void    map_error()//норма
 {
     write(1, "ERROR\n", 6);
-    return ;
-    //exit(1);
+    exit(1);
 }
