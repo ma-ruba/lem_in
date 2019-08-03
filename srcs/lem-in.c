@@ -30,22 +30,24 @@ int			main(int argc, char **argv) //норма
 	room_nb = 0;
 	index2 = 0;
 	n_ant = 0;
-	argc = 0;
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-		exit (1);
-	room = reading_data(&str, line, fd);
-	printf("\n");
-	if (checking_data(&str))
+	if (argc == 2)
 	{
-		if (!(path_list = algorithm(str.start_room, str.end_room, room)))
-			map_error();
-		arr = creating_of_array();
-		clean_pathes(number_of_pathes(&str, path_list, arr), &str, path_list);
-		ants_going_through_graph(path_list, str.number_of_pathes, &str);
-		free(arr);
-		free_pathlist(path_list->path, path_list);
+		fd = open(argv[1], O_RDONLY);
+		if (fd == -1)
+			exit (1);
+		room = reading_data(&str, line, fd);
+		printf("\n");
+		if (checking_data(&str))
+		{
+			if (!(path_list = algorithm(str.start_room, str.end_room, room)))
+				map_error();
+			arr = creating_of_array();
+			clean_pathes(number_of_pathes(&str, path_list, arr), &str, path_list);
+			ants_going_through_graph(path_list, str.number_of_pathes, &str);
+			free(arr);
+			free_pathlist(path_list->path, path_list);
+		}
+		free_neighb_list(room, &str);
 	}
-	free_neighb_list(room, &str);
 	return (0);
 }
