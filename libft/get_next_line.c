@@ -3,99 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bconwy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mrolfe <mrolfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 16:27:37 by bconwy            #+#    #+#             */
-/*   Updated: 2019/01/31 16:27:58 by bconwy           ###   ########.fr       */
+/*   Updated: 2019/08/10 14:11:35 by mrolfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_check_n(char **stack, char **line)
+int		ft_new_line(char **s, char **line, int fd, int ret)
 {
+	char	*tmp;
+	int		len;
+
+	len = 0;
+	while (s[fd][len] != '\n' && s[fd][len] != '\0')
+		len++;
+	if (s[fd][len] == '\n')
+	{
+		*line = ft_strsub(s[fd], 0, len);
+		tmp = ft_strdup(s[fd] + len + 1);
+		free(s[fd]);
+		s[fd] = tmp;
+		if (s[fd][0] == '\0')
+			ft_strdel(&s[fd]);
+	}
+	else if (s[fd][len] == '\0')
+	{
+		if (ret == BUFF_SIZE)
+			return (get_next_line(fd, line));
+		*line = ft_strdup(s[fd]);
+		ft_strdel(&s[fd]);
+	}
+	return (1);
+}
+
+int		get_next_line(const int fd, char **line)
+{
+	static char	*s[255];
+	char		buf[BUFF_SIZE + 1];
 	char		*tmp;
-
-	if ((tmp = ft_strchr(*stack, '\n')))
-	{
-		*tmp = '\0';
-		if (!(*line = ft_strdup(*stack)))
-		{
-			free(*stack);
-			return (-1);
-		}
-		tmp++;
-		if (!(tmp = ft_strdup((const char *)tmp)))
-			return (-1);
-		free(*stack);
-		*stack = tmp;
-		return (1);
-	}
-	return (0);
-}
-
-static int	ft_read_line(char **line, char *buff, char **stack)
-{
-	char		*tmp;
-
-	if (*stack)
-	{
-		tmp = ft_strjoin((const char *)*stack, buff);
-		free(*stack);
-		*stack = tmp;
-	}
-	else
-		*stack = ft_strdup((const char *)buff);
-	if ((tmp = ft_strchr((const char *)*stack, '\n')))
-	{
-		*tmp = '\0';
-		free(buff);
-		if (!(*line = ft_strdup((const char *)*stack)))
-		{
-			free(*stack);
-			return (-1);
-		}
-		tmp = ft_strdup((const char *)++tmp);
-		free(*stack);
-		*stack = tmp;
-		return (1);
-	}
-	return (0);
-}
-
-static void	ft_exception(int *ret, char **stack, char **line)
-{
-	if (*ret == 0 && *stack != NULL && *stack[0] != '\0')
-	{
-		*line = *stack;
-		*stack = NULL;
-		*ret = 1;
-	}
-}
-
-int			get_next_line(const int fd, char **line)
-{
-	static char	*stack[MAX_FD];
-	char		*buff;
 	int			ret;
 
-	if ((fd < 0 || fd >= MAX_FD) || !line ||
-		!(buff = ft_strnew(sizeof(char) * (BUFF_SIZE + 1))))
+	if (fd < 0 || line == NULL)
 		return (-1);
-	if (stack[fd])
+	while ((ret = read(fd, buf, BUFF_SIZE)) > 0)
 	{
-		if ((ret = ft_check_n(&stack[fd], line)))
-			return (ret);
+		buf[ret] = '\0';
+		if (s[fd] == NULL)
+			s[fd] = ft_strnew(1);
+		tmp = ft_strjoin(s[fd], buf);
+		free(s[fd]);
+		s[fd] = tmp;
+		if (ft_strchr(buf, '\n'))
+			break ;
 	}
-	while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
-	{
-		buff[ret] = '\0';
-		if ((ret = ft_read_line(line, buff, &stack[fd])))
-			return (ret);
-	}
-	ft_exception(&ret, &stack[fd], line);
-	if (ret == 0 && *line)
-		*line = NULL;
-	free(buff);
-	return (ret);
+	if (ret < 0)
+		return (-1);
+	else if (ret == 0 && (s[fd] == NULL || s[fd][0] == '\0'))
+		return (0);
+	return (ft_new_line(s, line, fd, ret));
 }

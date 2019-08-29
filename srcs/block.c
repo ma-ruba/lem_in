@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check.c                                            :+:      :+:    :+:   */
+/*   block.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrolfe <mrolfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 14:44:00 by mrolfe            #+#    #+#             */
-/*   Updated: 2019/07/01 14:48:30 by mrolfe           ###   ########.fr       */
+/*   Updated: 2019/08/24 15:49:44 by mrolfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,12 +134,13 @@ void		unblock_rooms(t_plist *plist) // норма
 		while (tmp)
 		{
 			tmp2 = tmp->path;
-			while (tmp2 && tmp2->room)
-			{
-				tmp2->room->status = OPENED;
-				tmp2 = tmp2->next;
-			}
-			tmp = tmp->next;
+				while (tmp2 && tmp2->room)
+				{
+					tmp2->room->status = OPENED;
+					tmp2 = tmp2->next;
+				}
+				tmp = tmp->next;
 		}
+
 	}
 }

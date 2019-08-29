@@ -59,9 +59,9 @@ t_room		**make_queue()//норма
 	int		i;
 
 	i = 0;
-	if (!(room = (t_room**)ft_memalloc(sizeof(t_room*) * (room_nb + 1))))
+	if (!(room = (t_room**)ft_memalloc(sizeof(t_room*) * room_nb)))
 		malloc_error();
-	while (i != room_nb + 1)
+	while (i != room_nb)
 	{
 		room[i] = NULL;
 		i++;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check.c                                            :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrolfe <mrolfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 14:44:00 by mrolfe            #+#    #+#             */
-/*   Updated: 2019/07/01 14:48:30 by mrolfe           ###   ########.fr       */
+/*   Updated: 2019/08/24 15:32:32 by mrolfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void 		ants_going_through_graph(t_plist *pointers, int num_of_pathes, t_data *re
 {
 	int 	value_of_ants;
 	int 	*array_num_ant;
+	int		count;
 
+	count = 1;
 	array_num_ant = (int*)ft_memalloc(sizeof(int) * read->amount_of_ants);
 	ft_arrset(array_num_ant, -1, read->amount_of_ants);
 	value_of_ants = 0;
@@ -31,10 +33,14 @@ void 		ants_going_through_graph(t_plist *pointers, int num_of_pathes, t_data *re
 			moving_ants(array_num_ant, read, &value_of_ants, pointers);
 		ants_printing(pointers, &value_of_ants, array_num_ant, read);
 		if (!value_of_ants)
-			return ;
+			break ;
 		ants_inside(pointers, num_of_pathes, read);
+		count++;
 	}
-	free(array_num_ant);
+	printf("\n");
+	printf("%i", count);
+    free(array_num_ant);
+	free(read->delta);
 }
 
 void		ants_inside(t_plist *pointers, int j, t_data *read)//норма

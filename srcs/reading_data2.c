@@ -56,7 +56,7 @@ t_room	*find_room(char *buff, t_room *room) //норма
 	int	res;
 
 	start = 0;
-	end = room_nb;
+	end = room_nb - 1; //changed
 	while (start <= end)
 	{
 		middle = (start + end) / 2;
@@ -99,4 +99,5 @@ void	other_rooms(char *line, t_room *room) //норма
 	room[room_nb].status = OPENED;
 	room[room_nb].is_ant_inside = 0;
 	room_nb++;
+	free(line);
 }

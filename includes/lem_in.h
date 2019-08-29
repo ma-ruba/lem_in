@@ -6,7 +6,7 @@
 /*   By: mrolfe <mrolfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/29 13:25:07 by mrolfe            #+#    #+#             */
-/*   Updated: 2019/06/29 15:06:03 by mrolfe           ###   ########.fr       */
+/*   Updated: 2019/08/24 16:02:03 by mrolfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <unistd.h>
 # include <stdio.h> // НЕ ЗАБЫТЬ ВСТАВИТЬ СВОЙ PRINTF!!!!!!!!!!!!!!!!!!!!!!!
 
-# define 			MAXV 7000   /*максимальное количество вершин */
+# define 			MAXV 100000   /*максимальное количество вершин */
 # define			BLOCKED 0
 # define			DELETED -1
 # define			OPENED 1
@@ -33,6 +33,10 @@ int					index1;
 int					index2;
 int					index3;
 int					i;
+int					index_for_rc;
+int					idx_for_start;
+int					idx_for_end;
+int					idx_for_make_plist;
 
 typedef struct		s_room //ячейка массива структур комнат
 {
@@ -83,7 +87,7 @@ typedef struct		s_array
 }					t_array;
 
 t_plist    			*algorithm(t_room *start, t_room *finish, t_room *arr);
-int					cutting_path(t_room *start, t_room *finish, t_plist *plist, int *index);
+int					cutting_path(t_room *start, t_room *finish, t_plist **plist, int *index);
 int					both_directions(t_plist *plist, t_room *start);
 int					width_search(t_room *start, t_room *finish, t_path **path);
 int					give_values(t_room **start, t_room *finish, int cur_val);
@@ -105,7 +109,7 @@ void				find_room2(t_path *path, t_room *room);
 int					find_room3(t_path *path, t_room *room);
 void				unblock_rooms(t_plist *plist);
 
-int 				checking_data(t_data *str);
+int     			checking_data(t_data *str);
 int     			check_room(char **line);
 int     			check_ants(const int fd, char **line);
 void     			check(char *line, int fd, t_data *str, t_room *room, int *index);
@@ -137,5 +141,6 @@ void				ants_printing(t_plist *plist, int *value_of_ants, int *array_num_ant, t_
 
 void    			malloc_error();
 void    			map_error();
+void                free_array_num_ant(int *array_num_ant);
 
 #endif

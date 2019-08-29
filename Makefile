@@ -52,3 +52,9 @@ fclean: clean
 
 re: fclean
 	@$(MAKE) all
+
+test-bigs:
+	./generator --big-superposition > test1; ./lem-in < test1
+
+test-big:
+	./generator --big > test1; ./lem-in < test1
