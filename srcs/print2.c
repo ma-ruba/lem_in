@@ -70,14 +70,14 @@ void		ants_printing(t_plist *plist, int *ant_val, int *array_num_ant, t_data *re
 		while (tmp && value_of_ants)
 		{
 			//print_arr(array_num_ant, read->l); //потом убрать
-			printf("L%i-", array_num_ant[k--]);
+			ft_printf("L%i-", array_num_ant[k--]);
 			print_room(tmp, ant_val, read, array_num_ant);
 			i++;
 			tmp = tmp->next;
 			if (value_of_ants-- == 1)
-				printf("\n");
+				ft_printf("\n");
 			else
-				printf(" ");
+				ft_printf(" ");
 		}
 	}
 	clear_print_index(plist);
@@ -91,7 +91,7 @@ void		print_room(t_plist *tmp, int *ant_val, t_data *read, int *array_num_ant)//
 	if (read->delta[i])
 	{
 		(read->delta[i])--;
-		printf("%s", read->end_room->name);
+		ft_printf("%s", read->end_room->name);
 		(read->ants_in_the_end_room)++;
 		(*ant_val)--;
 		clean_ants(array_num_ant, read->l, read->ants_in_the_end_room);
@@ -101,6 +101,6 @@ void		print_room(t_plist *tmp, int *ant_val, t_data *read, int *array_num_ant)//
 		tmp2 = tmp2->next;
 	while (tmp2->next && tmp2->next->room->is_ant_inside == 1 && tmp2->next->print_index != PRINTED)
 		tmp2 = tmp2->next;
-	printf("%s", tmp2->room->name);
+	ft_printf("%s", tmp2->room->name);
 	tmp2->print_index = PRINTED;
 }

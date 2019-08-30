@@ -19,6 +19,7 @@ void 		ants_going_through_graph(t_plist *pointers, int num_of_pathes, t_data *re
 	int		count;
 
 	count = 1;
+	line_count = 0;
 	array_num_ant = (int*)ft_memalloc(sizeof(int) * read->amount_of_ants);
 	ft_arrset(array_num_ant, -1, read->amount_of_ants);
 	value_of_ants = 0;
@@ -32,13 +33,15 @@ void 		ants_going_through_graph(t_plist *pointers, int num_of_pathes, t_data *re
 		if (read->amount_of_ants > 0)
 			moving_ants(array_num_ant, read, &value_of_ants, pointers);
 		ants_printing(pointers, &value_of_ants, array_num_ant, read);
+		line_count++;
 		if (!value_of_ants)
 			break ;
 		ants_inside(pointers, num_of_pathes, read);
 		count++;
 	}
-	printf("\n");
-	printf("%i", count);
+	ft_printf("\n");
+	ft_printf("%i\n", line_count);
+	ft_printf("%i", count);
     free(array_num_ant);
 	free(read->delta);
 }

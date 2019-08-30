@@ -53,7 +53,7 @@ void     check(char *line, int fd, t_data *str, t_room *room, int *index) //но
     }
     else if (line[0] == '#' && line[1] != '#')
     {
-        printf("%s\n", line);
+        ft_printf("%s\n", line);
         free(line);
         return ;
     }
@@ -61,7 +61,7 @@ void     check(char *line, int fd, t_data *str, t_room *room, int *index) //но
     {
         if (!str->end_room || !str->start_room) // made for pipes_before_room (why doesn't work?)
             map_error();
-        printf("%s\n", line);
+        ft_printf("%s\n", line);
         if (*index == 0)
             sorting_rooms(room, 0, room_nb - 1, str);
         *index = 1;
@@ -71,7 +71,7 @@ void     check(char *line, int fd, t_data *str, t_room *room, int *index) //но
     else
     {
         check_room(&line);
-        printf("%s\n", line);
+        ft_printf("%s\n", line);
         other_rooms(line, room);
     }
 }
@@ -111,7 +111,7 @@ int     check_ants(const int fd, char **line)
     i = 0;
     if (!get_next_line(fd, line))
         map_error();
-    printf("%s\n", *line);
+    ft_printf("%s\n", *line);
     if ((line[0][0] == '#' && line[0][1] == '#') || (line[0][0] == '#' && line[0][1] != '#'))
     {
         if (ft_strequ(*line, "##start") || ft_strequ(*line, "##end"))

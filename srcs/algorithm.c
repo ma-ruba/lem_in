@@ -9,11 +9,10 @@ t_plist    	*algorithm(t_room *start, t_room *finish, t_room *arr) //норма
 
 	plist = NULL;
 	index = 0;
-	path = NULL;
 	first = NULL;
 	while (cutting_path(start, finish, &first, &index))
 	{
-		//plist = NULL;
+		path = NULL;
 		while (width_search(start, finish, &path))
 		{ 
 			clean_values(arr);
@@ -38,6 +37,7 @@ int			cutting_path(t_room *start, t_room *finish, t_plist **first, int *index) /
 	tmp = *first;
 	if (*first != NULL)
 	{
+		//return (0);
 		//idx_for_make_plist = 0;
 		unblock_rooms(tmp);
 		block_direction(tmp, start);

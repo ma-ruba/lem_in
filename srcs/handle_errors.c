@@ -14,7 +14,7 @@
 
 void    malloc_error()//норма
 {
-    printf("malloc error\n");
+    ft_printf("malloc error\n");
     exit(1);
 }
 
