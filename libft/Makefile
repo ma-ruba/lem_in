@@ -1,32 +1,83 @@
-NAME = libft.a
-SRCS = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
-    ft_isdigit.c ft_isprint.c ft_memccpy.c ft_memchr.c ft_memcmp.c \
-    ft_memcpy.c ft_memmove.c ft_memset.c ft_putchar.c ft_putstr.c \
-    ft_strcat.c ft_strchr.c ft_strcmp.c ft_strcpy.c ft_strdup.c \
-    ft_strlcat.c ft_strlen.c ft_strncat.c ft_strncmp.c ft_strncpy.c \
-    ft_strnstr.c ft_strrchr.c ft_strstr.c ft_tolower.c ft_toupper.c \
-    ft_memalloc.c ft_memdel.c ft_memdel.c ft_strdel.c ft_strclr.c \
-    ft_striter.c ft_striteri.c ft_strmap.c ft_strmapi.c ft_strequ.c \
-    ft_strnequ.c ft_strsub.c ft_strjoin.c ft_strtrim.c ft_strsplit.c \
-    ft_itoa.c ft_putendl.c ft_putnbr.c ft_putchar_fd.c ft_putstr_fd.c \
-    ft_putendl_fd.c ft_putnbr_fd.c ft_strnew.c ft_memalloc2.c \
-	ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstadd.c ft_lstiter.c \
-    get_next_line.c ft_uniswap.c ft_arrset.c ft_arrcpy.c
-    
-INCLUDES = ./includes
-OBJ = $(SRCS:.c=.o)
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jwillem- <jwillem-@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/12/15 17:32:16 by jwillem-          #+#    #+#              #
+#    Updated: 2019/05/15 13:37:08 by gabshire         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME := libftprintf.a
+
+PFDIR := ft_printf/
+PF :=   create_struct	find_specifier		ft_printf	get_value	handling_specifier \
+		type_a		type_c		type_di		type_e		type_f		type_g		type_oux \
+		type_p		type_percent	type_s	type_non	type_n		rounding_a \
+
+MEMDIR := ft_mem/
+MEM :=	ft_bzero	ft_memalloc		ft_memcpy	ft_memccpy	ft_memchr	ft_memcmp	ft_memdel \
+		ft_memmove	ft_memset 		ft_uniswap\
+
+STRDIR := ft_str/
+STR :=	ft_atoi		ft_close_file	ft_intlen	ft_isalnum	ft_isalpha	ft_isascii	ft_isdigit	\
+		ft_isprint	ft_itoa_base	ft_itoa		ft_power	ft_putchar_fd			ft_putchar	\
+		ft_putendl	ft_putendl_fd	ft_putnbr	ft_putnbr_fd	ft_putstr_fd		ft_putstr	\
+		ft_putstrc	ft_range	ft_read_file	ft_sqrt			ft_strcat			ft_strchr	\
+		ft_strclr	ft_strcmp	ft_strcpy		ft_strdel		ft_strdup			ft_strequ	\
+		ft_striter	ft_striteri	ft_strjoin_free	ft_strjoin		ft_strlcat			ft_strlen	\
+		ft_strmap	ft_strmapi	ft_strncat		ft_strncmp		ft_strncpy			ft_strnequ	\
+		ft_strnew	ft_strnstr	ft_strpbrk		ft_strrchr		ft_strsplit			ft_strstr	\
+		ft_strsub	ft_strtoupper	ft_strtrim	ft_tolower		ft_toupper			ft_uitoa_base	\
+		get_next_line 	ft_swap		ft_freesplit	ft_arrcpy	ft_arrset\
+
+COMPILE := gcc -Wall -Wextra -Werror -g
+OBJDIR := obj/
+SRCDIR := srcs/
+INCDIR := includes/
+
+FILES := $(addprefix $(PFDIR),$(PF))
+FILES += $(addprefix $(MEMDIR),$(MEM))
+FILES += $(addprefix $(STRDIR),$(STR))
+
+SRC := $(addprefix $(SRCDIR),$(addsuffix .c,$(FILES)))
+OBJ := $(addprefix $(OBJDIR),$(addsuffix .o,$(FILES)))
 
 all: $(NAME)
 
-$(NAME):
-	gcc -Wall -Wextra -Werror -g -c $(SRCS) -I $(INCLUDES)
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+$(OBJDIR):
+	@echo "Creating library object files directories..."
+	@mkdir $(OBJDIR)
+	@mkdir $(OBJDIR)$(PFDIR)
+	@mkdir $(OBJDIR)$(MEMDIR)
+	@mkdir $(OBJDIR)$(STRDIR)
+	@echo "Library object files directory created!"
+
+$(OBJDIR)%.o: $(SRCDIR)%.c | $(OBJDIR)
+	@$(COMPILE) -I $(INCDIR) -c $< -o $@
+
+$(NAME): $(OBJ)
+	@echo "Compiling library..."
+	@ar rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
+	@echo "Library is compiled!"
 
 clean:
-	rm -f $(OBJ)
+	@echo "Deleting library object files..."
+	@rm -rf $(OBJDIR)
+	@echo "Library is cleaned!"
 
 fclean: clean
-	rm -f $(NAME)
+	@echo "Deleting library binary..." 
+	@rm -f $(NAME)
+	@echo "libftprintf.a is deleted!"
 
-re: fclean all
+re: fclean
+	@$(MAKE) all
+
+test: all
+	@echo "Compiling test..."
+	@$(COMPILE) -w -I$(INCDIR) -L. -lftprintf main.c -o test
+	@echo "Test is compiled!"
