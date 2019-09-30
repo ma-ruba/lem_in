@@ -17,6 +17,10 @@ PF :=   create_struct	find_specifier		ft_printf	get_value	handling_specifier \
 		type_a		type_c		type_di		type_e		type_f		type_g		type_oux \
 		type_p		type_percent	type_s	type_non	type_n		rounding_a \
 
+LSTDIR := ft_lst/
+LST :=	ft_lstadd	ft_lstdel	ft_lstdelone	ft_lstiter	ft_lstlen	ft_lstmap \
+		ft_lstnew	ft_lstpush	ft_lstnew_ptr \
+
 MEMDIR := ft_mem/
 MEM :=	ft_bzero	ft_memalloc		ft_memcpy	ft_memccpy	ft_memchr	ft_memcmp	ft_memdel \
 		ft_memmove	ft_memset 		ft_uniswap\
@@ -39,6 +43,7 @@ SRCDIR := srcs/
 INCDIR := includes/
 
 FILES := $(addprefix $(PFDIR),$(PF))
+FILES += $(addprefix $(LSTDIR),$(LST))
 FILES += $(addprefix $(MEMDIR),$(MEM))
 FILES += $(addprefix $(STRDIR),$(STR))
 
@@ -51,6 +56,7 @@ $(OBJDIR):
 	@echo "Creating library object files directories..."
 	@mkdir $(OBJDIR)
 	@mkdir $(OBJDIR)$(PFDIR)
+	@mkdir $(OBJDIR)$(LSTDIR)
 	@mkdir $(OBJDIR)$(MEMDIR)
 	@mkdir $(OBJDIR)$(STRDIR)
 	@echo "Library object files directory created!"
