@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check.c                                            :+:      :+:    :+:   */
+/*   print2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrolfe <mrolfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 14:44:00 by mrolfe            #+#    #+#             */
-/*   Updated: 2019/07/01 14:48:30 by mrolfe           ###   ########.fr       */
+/*   Updated: 2019/09/02 12:11:39 by mrolfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static void	clear_print_index(t_plist *plist)//норма
+static void	clear_print_index(t_plist *plist)
 {
 	t_plist	*tmp;
 	t_path	*tmp2;
@@ -30,7 +30,7 @@ static void	clear_print_index(t_plist *plist)//норма
 	}
 }
 
-static void	clean_ants(int *array_num_ant, int nb_ant, int end_ant)//норма
+static void	clean_ants(int *array_num_ant, int nb_ant, int end_ant)
 {
 	if (end_ant)
 	{
@@ -43,55 +43,46 @@ static void	clean_ants(int *array_num_ant, int nb_ant, int end_ant)//норма
 	}
 }
 
-/*static void	print_arr(int *array_num_ant, int size)
+void		ants_printing(t_plist *plist, int *ant_val, int *array_num_ant,
+							t_data *read)
 {
-	int		i;
-
-	i = -1;
-	while (++i < size)
-		printf("%i ", array_num_ant[i]);
-	printf("\n");
-}*/
-
-void		ants_printing(t_plist *plist, int *ant_val, int *array_num_ant, t_data *read) //норма
-{
-	int 	k;
+	int		k;
 	t_plist	*tmp;
 	int		value_of_ants;
 
 	value_of_ants = *ant_val;
-	while (array_num_ant[index3] == -1)
-		index3--;
-	k = index3;
+	while (array_num_ant[g_index3] == -1)
+		g_index3--;
+	k = g_index3;
 	while (value_of_ants)
 	{
 		tmp = plist;
-		i = 0;
+		g_i = 0;
 		while (tmp && value_of_ants)
 		{
-			//print_arr(array_num_ant, read->l); //потом убрать
-			printf("L%i-", array_num_ant[k--]);
+			ft_printf("L%i-", array_num_ant[k--]);
 			print_room(tmp, ant_val, read, array_num_ant);
-			i++;
+			g_i++;
 			tmp = tmp->next;
 			if (value_of_ants-- == 1)
-				printf("\n");
+				ft_printf("\n");
 			else
-				printf(" ");
+				ft_printf(" ");
 		}
 	}
 	clear_print_index(plist);
 }
 
-void		print_room(t_plist *tmp, int *ant_val, t_data *read, int *array_num_ant)//норма
+void		print_room(t_plist *tmp, int *ant_val, t_data *read,
+						int *array_num_ant)
 {
 	t_path	*tmp2;
 
 	tmp2 = tmp->path;
-	if (read->delta[i])
+	if (read->delta[g_i])
 	{
-		(read->delta[i])--;
-		printf("%s", read->end_room->name);
+		(read->delta[g_i])--;
+		ft_printf("%s", read->end_room->name);
 		(read->ants_in_the_end_room)++;
 		(*ant_val)--;
 		clean_ants(array_num_ant, read->l, read->ants_in_the_end_room);
@@ -99,8 +90,9 @@ void		print_room(t_plist *tmp, int *ant_val, t_data *read, int *array_num_ant)//
 	}
 	while (tmp2->next && tmp2->room->is_ant_inside == 0)
 		tmp2 = tmp2->next;
-	while (tmp2->next && tmp2->next->room->is_ant_inside == 1 && tmp2->next->print_index != PRINTED)
+	while (tmp2->next && tmp2->next->room->is_ant_inside == 1 &&
+				tmp2->next->print_index != PRINTED)
 		tmp2 = tmp2->next;
-	printf("%s", tmp2->room->name);
+	ft_printf("%s", tmp2->room->name);
 	tmp2->print_index = PRINTED;
 }
