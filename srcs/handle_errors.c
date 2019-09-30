@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check.c                                            :+:      :+:    :+:   */
+/*   handle_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mrolfe <mrolfe@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/01 14:44:00 by mrolfe            #+#    #+#             */
-/*   Updated: 2019/07/01 14:48:30 by mrolfe           ###   ########.fr       */
+/*   Updated: 2019/08/28 14:46:51 by mrolfe           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void    malloc_error()//норма
+void	malloc_error(void)
 {
-    printf("malloc error\n");
-    exit(1);
+	ft_printf("malloc error\n");
+	exit(1);
 }
 
-void    map_error()//норма
+void	map_error(t_room *room, t_data *str)
 {
-    write(1, "ERROR\n", 6);
-    exit(1);
+	write(1, "ERROR\n", 6);
+	free_neighb_list(room, str);
+	exit(1);
 }
